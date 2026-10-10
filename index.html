@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarePoint | Hospital Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">✚</span><span>CarePoint<small>HOSPITAL ADMIN</small></span></div>
+    <p class="nav-label">WORKSPACE</p>
+    <button class="nav-item active" data-page="dashboard">▦ &nbsp; Dashboard</button>
+    <button class="nav-item" data-page="patients">♙ &nbsp; Patients</button>
+    <button class="nav-item" data-page="doctors">⚕ &nbsp; Doctors</button>
+    <button class="nav-item" data-page="appointments">▣ &nbsp; Appointments</button>
+    <div class="sidebar-bottom"><div class="avatar">AD</div><div><strong>Admin User</strong><small>Hospital Administrator</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">HOSPITAL MANAGEMENT</p><h1 id="page-title">Dashboard overview</h1></div>
+      <div class="top-right"><span class="status-dot"></span> System online</div>
+    </header>
+    <div id="notice" class="notice hidden"></div>
+
+    <section id="dashboard-page" class="page">
+      <div class="welcome"><div><p class="eyebrow light">WELCOME BACK</p><h2>Good care starts here.</h2><p>Manage patients, doctors and appointments from one place.</p></div><div class="welcome-symbol">✚</div></div>
+      <div class="stats">
+        <article class="stat-card"><div class="stat-top">Total patients <span class="stat-icon blue">♙</span></div><strong id="stat-patients">0</strong><small>Registered patient records</small></article>
+        <article class="stat-card"><div class="stat-top">Medical staff <span class="stat-icon green">⚕</span></div><strong id="stat-doctors">0</strong><small>Doctors in the directory</small></article>
+        <article class="stat-card"><div class="stat-top">Appointments <span class="stat-icon purple">▣</span></div><strong id="stat-appointments">0</strong><small>Total appointments</small></article>
+        <article class="stat-card"><div class="stat-top">Scheduled <span class="stat-icon orange">◷</span></div><strong id="stat-scheduled">0</strong><small>Awaiting patient visits</small></article>
+      </div>
+      <section class="panel"><div class="panel-heading"><div><h3>Recent appointments</h3><p>Latest patient visits</p></div><button class="primary small" data-go="appointments">+ New appointment</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="recent-body"></tbody></table></div>
+      </section>
+      <div class="tip"><span>✦</span><div><strong>Keep records up to date</strong><p>Add patients and doctors before booking appointments.</p></div></div>
+    </section>
+
+    <section id="patients-page" class="page hidden">
+      <div class="section-toolbar"><div><h2>Patient directory</h2><p>Register and manage patient information.</p></div><button class="primary" id="add-patient-btn">+ Add patient</button></div>
+      <div class="panel"><div class="table-tools"><input id="patient-search" placeholder="Search patients by name or phone..."><span id="patient-count" class="muted"></span></div>
+        <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Age / Gender</th><th>Phone</th><th>Condition / Notes</th><th>Action</th></tr></thead><tbody id="patients-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="doctors-page" class="page hidden">
+      <div class="section-toolbar"><div><h2>Medical staff</h2><p>Doctor directory and availability.</p></div><button class="primary" id="add-doctor-btn">+ Add doctor</button></div>
+      <div id="doctors-grid" class="doctor-grid"></div>
+    </section>
+
+    <section id="appointments-page" class="page hidden">
+      <div class="section-toolbar"><div><h2>Appointments</h2><p>Book and track patient visits.</p></div><button class="primary" id="add-appointment-btn">+ Book appointment</button></div>
+      <div class="panel"><div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date & time</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead><tbody id="appointments-body"></tbody></table></div></div>
+    </section>
+    <footer>CarePoint Hospital Management System · Internship Project Demo</footer>
+  </main>
+
+  <dialog id="patient-dialog" class="modal"><form id="patient-form">
+    <div class="modal-head"><div><p class="eyebrow">PATIENT RECORD</p><h2>Add patient</h2></div><button type="button" class="close" data-close="patient-dialog">×</button></div>
+    <label>Full name<input name="name" required maxlength="80" placeholder="Enter patient name"></label>
+    <div class="form-row"><label>Age<input name="age" type="number" min="0" max="120" required></label><label>Gender<select name="gender"><option>Female</option><option>Male</option><option>Other</option></select></label></div>
+    <label>Phone number<input name="phone" required maxlength="20" placeholder="Contact number"></label>
+    <label>Condition / notes<input name="condition" maxlength="120" placeholder="e.g. General check-up"></label>
+    <div class="modal-actions"><button type="button" class="secondary" data-close="patient-dialog">Cancel</button><button class="primary" type="submit">Save patient</button></div>
+  </form></dialog>
+
+  <dialog id="doctor-dialog" class="modal"><form id="doctor-form">
+    <div class="modal-head"><div><p class="eyebrow">STAFF DIRECTORY</p><h2>Add doctor</h2></div><button type="button" class="close" data-close="doctor-dialog">×</button></div>
+    <label>Doctor name<input name="name" required placeholder="e.g. Dr. Ananya Rao"></label>
+    <label>Specialty<input name="specialty" required placeholder="e.g. General Medicine"></label>
+    <label>Phone number<input name="phone" maxlength="20" placeholder="Contact number"></label>
+    <label>Availability<select name="availability"><option>Available</option><option>Busy</option><option>On Leave</option></select></label>
+    <div class="modal-actions"><button type="button" class="secondary" data-close="doctor-dialog">Cancel</button><button class="primary" type="submit">Save doctor</button></div>
+  </form></dialog>
+
+  <dialog id="appointment-dialog" class="modal"><form id="appointment-form">
+    <div class="modal-head"><div><p class="eyebrow">PATIENT VISIT</p><h2>Book appointment</h2></div><button type="button" class="close" data-close="appointment-dialog">×</button></div>
+    <label>Patient<select name="patientId" id="appointment-patient" required></select></label>
+    <label>Doctor<select name="doctorId" id="appointment-doctor" required></select></label>
+    <div class="form-row"><label>Date<input name="date" type="date" required></label><label>Time<input name="time" type="time" required></label></div>
+    <label>Reason for visit<input name="reason" maxlength="150" placeholder="Brief reason"></label>
+    <div class="modal-actions"><button type="button" class="secondary" data-close="appointment-dialog">Cancel</button><button class="primary" type="submit">Book appointment</button></div>
+  </form></dialog>
+  <script src="script.js"></script>
+</body>
+</html>
